@@ -86,8 +86,7 @@ int resultX;
 
 
         }
-        System.out.println(result);
-return result;
+        return result;
 
     }
 

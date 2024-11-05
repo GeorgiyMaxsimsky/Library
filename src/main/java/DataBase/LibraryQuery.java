@@ -112,6 +112,8 @@ if (resultSet.next()){
 
     public boolean findPassword(String email, String pass){
 
+        boolean passFound = false;
+
         try (Connection connection = ConnectionManager.open()){
             PreparedStatement pst = connection.prepareStatement(FIND_PASS);
             pst.setString(1, email);
@@ -119,13 +121,21 @@ if (resultSet.next()){
             ResultSet resultSet = pst.executeQuery();
 
 
-
+if (resultSet.next()){
+    passFound=true;
+}
 
         } catch (SQLException e) {
             throw new RuntimeException(e);
         }
 
-        return true;
+        if (!passFound) {
+
+            System.out.println("Пароль неверный");
+        }
+
+
+        return passFound;
     }
 
 

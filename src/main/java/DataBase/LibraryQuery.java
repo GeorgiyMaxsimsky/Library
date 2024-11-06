@@ -3,103 +3,104 @@ package DataBase;
 import Accounts.Account;
 import Book.Books;
 import DataBase.Util.ConnectionManager;
-import Staff.AddNewClient;
+
 
 import java.sql.*;
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.List;
 
 public class LibraryQuery {
 
 
-    private static String ADD_MONEY = """
-            UPDATE accounts 
+  /*  private static String ADD_MONEY = """
+            UPDATE accounts
             SET money = money + ?
             WHERE id = ?
-            
-            
-            """;
-    private static String ADD_NEW_BOOK = """
+
+
+            """;*/
+    private static final String ADD_NEW_BOOK = """
             INSERT INTO BOOKS (isbn, name, author,quantity)
             VALUES (?,?,?,?)
-            
-            
+                        
+                        
             """;
 
 
-    private static String ADD_NEW_ACCOUNT = """
+    private static final String ADD_NEW_ACCOUNT = """
             INSERT INTO accounts (email,password)
             VALUES (?,?)
                         
                         
             """;
 
-    private static String ADD_NEW_CLIENT= """
+    private static final String ADD_NEW_CLIENT = """
             INSERT INTO clients (account_id, name,surname,secondname,date_of_birth) 
             VALUES (?,?,?,?,?)
                     
                             """;
 
 
-
-    private static String DELETE_ACCOUNT = """
-            
+    private static final String DELETE_ACCOUNT = """
+                        
             DELETE FROM accounts
             where email = ?        
                         
             """;
 
-    private static String DELETE_BOOK = """
-            
+    private static final String DELETE_BOOK = """
+                        
             DELETE FROM books
             where name = ? and author = ? 
                         
             """;
 
 
-
-    private String FIND_BOOK_BY_AUTHOR = """
+    private static final String FIND_BOOK_BY_AUTHOR = """
             SELECT * FROM books
             WHERE author = ? 
-            
+                        
             """;
 
-    private String FIND_BOOK_BY_NAME = """
+  /*  private static final String FIND_BOOK_BY_NAME = """
             SELECT * FROM books
             WHERE name = ? 
-            
-            """;
+                        
+            """;*/
 
 
-    private String FIND_EMAIL = """
+    private static final String FIND_EMAIL = """
             SELECT email FROM accounts
             WHERE email = ?
-            
+                        
             """;
 
-    private String FIND_PASS = """
+    private static final String FIND_PASS = """
             SELECT password FROM accounts
             WHERE email = ? and password = ?
-            
+                        
             """;
 
 
 
-    public void TakeMonneyToAccount(int sumOfMoney,Account account){
-       try (Connection connection= ConnectionManager.open()){
-           PreparedStatement preparedStatement = connection.prepareStatement(ADD_MONEY);
-           preparedStatement.setString(sumOfMoney, account.);
-
-
-
-       } catch (SQLException e) {
-           throw new RuntimeException(e);
-       }
-
-
-    }
-
+//      public void TakeMonneyToAccount(int sumOfMoney,Account account){
+//       try(
+//    Connection connection = ConnectionManager.open())
+//
+//    {
+//        PreparedStatement preparedStatement = connection.prepareStatement(ADD_MONEY);
+//        preparedStatement.setString(sumOfMoney, account.);
+//
+//
+//    } catch(
+//    SQLException e)
+//
+//    {
+//        throw new RuntimeException(e);
+//    }
+//
+//
+//}
 
 public boolean findByEmail(String email){
 
@@ -120,7 +121,7 @@ if (resultSet.next()){
         e.printStackTrace();
     }
 
-    if (userFound==false) {
+    if (!userFound) {
 
         System.out.println("Пользователь с email: " + email + " не найден");
     }
@@ -300,7 +301,7 @@ if (resultSet.next()){
             }
                 } else {
                     System.out.println("Не удалось добавить аккаунт.");
-                    return;}
+                    }
 
             }
         } catch (SQLException e) {

@@ -13,7 +13,13 @@ import java.util.List;
 public class LibraryQuery {
 
 
-
+    private static String ADD_MONEY = """
+            UPDATE accounts 
+            SET money = money + ?
+            WHERE id = ?
+            
+            
+            """;
     private static String ADD_NEW_BOOK = """
             INSERT INTO BOOKS (isbn, name, author,quantity)
             VALUES (?,?,?,?)
@@ -78,6 +84,21 @@ public class LibraryQuery {
             
             """;
 
+
+
+    public void TakeMonneyToAccount(int sumOfMoney,Account account){
+       try (Connection connection= ConnectionManager.open()){
+           PreparedStatement preparedStatement = connection.prepareStatement(ADD_MONEY);
+           preparedStatement.setString(sumOfMoney, account.);
+
+
+
+       } catch (SQLException e) {
+           throw new RuntimeException(e);
+       }
+
+
+    }
 
 
 public boolean findByEmail(String email){

@@ -28,6 +28,9 @@ public class Account {
         this.dateOfBirth = dateOfBirth;
     }
 
+    public Account(int accountId, String email, String password, String name, String secondname, String surname, String dateOfBirth) {
+    }
+
     public String getName() {
         return name;
     }

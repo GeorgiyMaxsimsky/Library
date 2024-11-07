@@ -1,10 +1,16 @@
 package Client;
 
+import Accounts.Account;
 import DataBase.LibraryQuery;
 
 import java.util.Scanner;
 
 public class EnterTheClientAccount {
+
+    String email;
+
+
+
 int resultX;
 
     public int getResult() {
@@ -24,8 +30,8 @@ int resultX;
 
 
         Scanner sc = new Scanner(System.in);
-
-        String email;
+        System.out.println("Введите email ");
+        email = sc.nextLine();
         String password;
 
 
@@ -34,8 +40,6 @@ int resultX;
 
 
 
-        System.out.println("Введите email");
-        email= sc.nextLine();
 
         boolean userEmailFind =  libraryQuery.findByEmail(email);
         int i =0;
@@ -72,6 +76,33 @@ int resultX;
            }
             if (userPassFind==true){
                 System.out.println("Вход выполнен успешно");
+
+
+                Account account = libraryQuery.getAccountFromSql(email);
+
+
+                System.out.println("Вывод информации о пользователе - 1 ");
+                System.out.println("Изменить данные аккаунта - 2 ");
+                int answer4= sc.nextInt();
+
+                if (answer4==1){
+
+
+                    System.out.println(account.getEmail());
+                    System.out.println(account.getName());
+                    System.out.println(account.getSecondName());
+                    System.out.println(account.getSurName());
+                    System.out.println(account.getDateOfBirth());
+
+                }else {
+
+                    System.out.println("Аккаунт не найден");
+
+                }
+
+
+
+
                 result = 1;
                 resultX = result;
 
@@ -89,6 +120,12 @@ int resultX;
         return result;
 
     }
+
+
+
+
+
+
 
     public static void main(String[] args) {
         EnterTheClientAccount enterTheClientAccount = new EnterTheClientAccount();

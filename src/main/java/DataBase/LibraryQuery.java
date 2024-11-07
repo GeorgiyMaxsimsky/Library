@@ -12,13 +12,30 @@ import java.util.List;
 public class LibraryQuery {
 
 
-  /*  private static String ADD_MONEY = """
-            UPDATE accounts
-            SET money = money + ?
-            WHERE id = ?
+    private static final String GET_ACCOUNT_CLIENT = """
+            SELECT
+            accounts.id,
+            accounts.email,
+            accounts.password,
+            clients.name,
+            clients.secondname,
+            clients.surname,
+            clients.date_Of_birth
+            FROM
+            clients
+            JOIN
+                accounts ON clients.account_id = accounts.id
+            		WHERE email = ?
+            """;
 
 
-            """;*/
+    /*  private static String ADD_MONEY = """
+              UPDATE accounts
+              SET money = money + ?
+              WHERE id = ?
+
+
+              """;*/
     private static final String ADD_NEW_BOOK = """
             INSERT INTO BOOKS (isbn, name, author,quantity)
             VALUES (?,?,?,?)
@@ -82,7 +99,6 @@ public class LibraryQuery {
             """;
 
 
-
 //      public void TakeMonneyToAccount(int sumOfMoney,Account account){
 //       try(
 //    Connection connection = ConnectionManager.open())
@@ -101,6 +117,54 @@ public class LibraryQuery {
 //
 //
 //}
+
+
+    public Account getAccountFromSql(String email) {
+
+
+
+
+        try (Connection connection = ConnectionManager.open()) {
+
+            PreparedStatement preparedStatement = connection.prepareStatement(GET_ACCOUNT_CLIENT);
+            preparedStatement.setString(1, email);
+            ResultSet resultSet = preparedStatement.executeQuery();
+
+
+            if (resultSet.next()) {
+                int accountId = resultSet.getInt("id");
+                String emailx = resultSet.getString("email");
+                String password = resultSet.getString("password");
+                String name = resultSet.getString("name");
+                String secondname = resultSet.getString("secondname");
+                String surname = resultSet.getString("surname");
+                String dateOfBirth = resultSet.getString("date_Of_birth");
+
+
+                Account account =new Account(accountId, emailx, password, name, secondname, surname, dateOfBirth);
+return account;
+
+
+            } else {
+                System.out.println("Аккаунт не был найден");
+            }
+
+
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+
+
+        return null;
+    }
+
+
+
+
+
 
 public boolean findByEmail(String email){
 
